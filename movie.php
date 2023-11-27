@@ -31,11 +31,40 @@ $movieList = new Card(array(
     ));
 ?>
 
-<main class="container">
+<main class="container-fluid">
     <div class="row">
-            <?php
-           echo $movieList->getMovie("nom", 'url');
+        <div class="col col-lg-2 mb-5">
+            <form action="/movie.php" method="post">
+                <div class="form-group">
+                    <label for="movieAdd">Vidéo</label>
+                    <input type="text" class="form-control" id="movieAdd" name="name" placeholder="Saisissez le nom du film">
+                </div>
+                <div class="form-group">
+                    <label for="urlAdd">Url</label>
+                    <input type="text" class="form-control" id="urlAdd" name="url" placeholder="Saisissez l'url du film">
+                </div>
+                <button type="submit" class="btn btn-primary">Valider</button>
+            </form>
+            <h1>$_POST</h1>
+            <?= var_dump($_POST);
             ?>
+        </div>
+        <div class="col col-lg-10">
+            <div class="container-fluid">
+                <div class="row">
+                    <?php if (!empty($_POST)){
+                         $movieAdd = $_POST["name"];
+                         $urlAdd = $_POST["url"];
+                    }
+                       
+                        echo $movieList->getMovie("nom", 'url');
+                    ?>
+                </div>
+            </div>
+             
+        </div>
+        
+           
     </div>
 </main>
 

@@ -37,15 +37,8 @@ require_once 'functions.php'
 
   <body>
       <header data-bs-theme="dark">
-        </div>
-          <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-              <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                <?= nav_menu('nav-link')?>
-              </ul>
-              <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-              </form>
-          </nav>
-        </div>
+        <div class="row">
+            <?php
+            require './navigation.php';
+            ?>
       </header>

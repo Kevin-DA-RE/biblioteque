@@ -16,10 +16,12 @@ class Card {
         $name = $item["nom"];
         $url = $item["url"];
         $html.= <<<HTML
-                <div class="col-lg-4">
+                <div class="col col-lg-4 mb-5 text-center">
                     <div class="card" >
                             <h5 class="card-title">$name</h5>
-                            <img src="{$url}" class="card-img-top" alt="{$url}"style="width: 18rem;height: 380px">
+                            <div class="text-center">
+                                <img src="{$url}" class="card-img-top" alt="{$url}"style="width: 18rem;height: 380px">
+                            </div>                            
                             <div class="card-body">                        
                                 <a href="{$url}" class="btn btn-primary">View</a>
                             </div>
@@ -31,5 +33,10 @@ HTML;
         return $html;
         
     }
+
+    public function addMovie(array $data){
+        
+    }
+
 
 }
