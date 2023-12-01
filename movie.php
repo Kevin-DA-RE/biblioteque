@@ -1,6 +1,14 @@
 <?php
 require './header.php';
-require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'class' . DIRECTORY_SEPARATOR . 'Card.php';
+require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'biblioteque' . DIRECTORY_SEPARATOR . 'class' . DIRECTORY_SEPARATOR . 'Card.php';
+
+/* Connexion à la base de données */
+try {
+    //code...
+    $pdo = new PDO("mysql:host:localhost;dbname=biblioteque", "root", "");
+} catch (PDOException $e) {
+    die("Erreur : " . $e->getMessage());
+}
 
 $movieList = new Card(array(
     [
