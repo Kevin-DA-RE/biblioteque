@@ -34,8 +34,9 @@ HTML;
         
     }
 
-    public function addMovie(array $data){
-        
+    public function addMovie(string $nom, string $url){
+        $addMovie = array("nom"=> $nom, "url" => $url);
+        array_push($this->items, $addMovie);
     }
 
 

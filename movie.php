@@ -29,6 +29,10 @@ $movieList = new Card(array(
     ]
         
     ));
+
+if (!empty($_POST)){
+    echo $movieList->addMovie($_POST["name"], $_POST["url"]);
+}
 ?>
 
 <main class="container-fluid">
@@ -52,19 +56,10 @@ $movieList = new Card(array(
         <div class="col col-lg-10">
             <div class="container-fluid">
                 <div class="row">
-                    <?php if (!empty($_POST)){
-                         $movieAdd = $_POST["name"];
-                         $urlAdd = $_POST["url"];
-                    }
-                       
-                        echo $movieList->getMovie("nom", 'url');
-                    ?>
+                    <?= $movieList->getMovie("nom", 'url');?>
                 </div>
             </div>
-             
         </div>
-        
-           
     </div>
 </main>
 
