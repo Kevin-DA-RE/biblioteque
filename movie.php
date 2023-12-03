@@ -5,41 +5,24 @@ require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'biblioteque' . DIRECTORY_SEPAR
 /* Connexion à la base de données */
 try {
     //code...
-    $pdo = new PDO("mysql:host:localhost;dbname=biblioteque", "root", "");
+    $pdo = new PDO("mysql:host=localhost;dbname=biblioteque", "root", "");
+
 } catch (PDOException $e) {
     die("Erreur : " . $e->getMessage());
 }
 
-$movieList = new Card(array(
-    [
-        "nom" => "Barbie",
-        "url" => "https://fr.web.img4.acsta.net/pictures/23/06/16/12/04/4590179.jpg"
-   
-    ],
-    [
-        "nom" => "oppenheimer",
-        "url" => "https://fr.web.img5.acsta.net/pictures/23/05/26/16/52/2793170.jpg"
-   
-    ],
-    [
-        "nom" => "Venom 2",
-        "url" => "https://fr.web.img2.acsta.net/pictures/21/09/01/11/19/0900123.jpg"
-    ],
-    [
-        "nom" => "Spider Man No Way Home",
-        "url" => "https://fr.web.img4.acsta.net/pictures/21/11/16/10/01/4860598.jpg"
-    
-    ],
-    [
-        "nom" => "Les gardiens de la galaxie 3",
-        "url" => "https://www.francetvinfo.fr/pictures/uweCsy9dsYWv5RLbQ8KEQIGhCpU/1200x1200/2023/05/03/64521f9a8beec_gardians.jpg"
-    
-    ]
-        
-    ));
+/* Requete pour afficher tous les films présent en base */
+$movies = $pdo->query('SELECT id, nom, url FROM media');
 
-if (!empty($_POST)){
-    echo $movieList->addMovie($_POST["name"], $_POST["url"]);
+if(!empty($_POST)){
+    $nom = htmlspecialchars($_POST['nom']);
+    $url = htmlspecialchars($_POST['url']);
+    $addMovies = $pdo->prepare("INSERT INTO `media`(`nom`, `url`) VALUES (:nom,:url)");
+     // Liaison des paramètres
+    $addMovies->bindParam(':nom', $nom, PDO::PARAM_STR);
+    $addMovies->bindParam(':url', $url, PDO::PARAM_STR);
+    $addMovies->execute();
+    header('Location: ./movie.php');
 }
 ?>
 
@@ -49,7 +32,7 @@ if (!empty($_POST)){
             <form action="/movie.php" method="post">
                 <div class="form-group">
                     <label for="movieAdd">Vidéo</label>
-                    <input type="text" class="form-control" id="movieAdd" name="name" placeholder="Saisissez le nom du film">
+                    <input type="text" class="form-control" id="movieAdd" name="nom" placeholder="Saisissez le nom du film">
                 </div>
                 <div class="form-group">
                     <label for="urlAdd">Url</label>
@@ -57,14 +40,23 @@ if (!empty($_POST)){
                 </div>
                 <button type="submit" class="btn btn-primary">Valider</button>
             </form>
-            <h1>$_POST</h1>
-            <?= var_dump($_POST);
-            ?>
         </div>
         <div class="col col-lg-10">
             <div class="container-fluid">
                 <div class="row">
-                    <?= $movieList->getMovie("nom", 'url');?>
+                <?php foreach($movies as $movie):?>
+                        <div class="col col-lg-4 mb-5 text-center">
+                            <div class="card" >
+                                    <h5 class="card-title"><?=ucfirst($movie['nom'])?></h5>
+                                    <div class="text-center">
+                                        <img src="<?=$movie['url']?>" class="card-img-top" alt="<?=$movie['url']?>"style="width: 18rem;height: 380px">
+                                    </div>                            
+                                    <div class="card-body">                        
+                                        <a href="<?=$movie['url']?>" class="btn btn-primary">View</a>
+                                    </div>
+                            </div>
+                        </div>
+                    <?php endforeach?>
                 </div>
             </div>
         </div>
