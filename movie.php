@@ -1,22 +1,13 @@
 <?php
 require './header.php';
-require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'biblioteque' . DIRECTORY_SEPARATOR . 'class' . DIRECTORY_SEPARATOR . 'Card.php';
 
-/* Connexion à la base de données */
-try {
-    //code...
-    $pdo = new PDO("mysql:host=localhost;dbname=biblioteque", "root", "");
-
-} catch (PDOException $e) {
-    die("Erreur : " . $e->getMessage());
-}
 
 /* Requete pour afficher tous les films présent en base */
-$movies = $pdo->query('SELECT id, nom, url FROM media');
+$movies = $pdo->query('SELECT id, nom, url FROM media ORDER BY id desc');
 
-if(!empty($_POST)){
-    $nom = htmlspecialchars($_POST['nom']);
-    $url = htmlspecialchars($_POST['url']);
+if(!empty($_GET)){
+    $nom = htmlspecialchars(ucfirst($_GET['nom']));
+    $url = htmlspecialchars($_GET['url']);
     $addMovies = $pdo->prepare("INSERT INTO `media`(`nom`, `url`) VALUES (:nom,:url)");
      // Liaison des paramètres
     $addMovies->bindParam(':nom', $nom, PDO::PARAM_STR);
@@ -29,7 +20,7 @@ if(!empty($_POST)){
 <main class="container-fluid">
     <div class="row">
         <div class="col col-lg-2 mb-5">
-            <form action="/movie.php" method="post">
+            <form action="/movie.php" method="get">
                 <div class="form-group">
                     <label for="movieAdd">Vidéo</label>
                     <input type="text" class="form-control" id="movieAdd" name="nom" placeholder="Saisissez le nom du film">
@@ -53,6 +44,7 @@ if(!empty($_POST)){
                                     </div>                            
                                     <div class="card-body">                        
                                         <a href="<?=$movie['url']?>" class="btn btn-primary">View</a>
+                                        <a href="./prepareToUpdate.php?id=<?=$movie['id']?>" class="btn btn-success">Update</a>
                                     </div>
                             </div>
                         </div>

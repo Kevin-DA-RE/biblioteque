@@ -1,4 +1,13 @@
 <?php
+/* Connexion à la base de données */
+try {
+    //code...
+    $pdo = new PDO("mysql:host=localhost;dbname=biblioteque", "root", "");
+
+} catch (PDOException $e) {
+    die("Erreur : " . $e->getMessage());
+}
+
 function nav_item (string $lien, string $titre, string $linkClass = ''): string
 {
     $classe = '';
@@ -17,31 +26,6 @@ function nav_menu (string $linkClass = ''): string
     return 
     nav_item('/index.php', 'Accueil', $linkClass).
     nav_item('/movie.php', 'Films', $linkClass);
-}
-
-
-function checkbox(string $name, string $value, array $data): string 
-{
-    $attribute = '';
-    if (isset($data[$name]) && in_array($value, $data[$name])){
-            $attribute .= 'checked';
-    }
-
-    return <<<HTML
-    <input type="checkbox" name="{$name}[]" value="$value" $attribute>
-HTML;
-}
-
-function radio(string $name, string $value, array $data): string 
-{
-    $attribute = '';
-    if (isset($data[$name]) && $value ===  $data[$name]){
-            $attribute .= 'checked';
-    }
-
-    return <<<HTML
-    <input type="radio" name="{$name}" value="$value" $attribute>
-HTML;
 }
 
 function dump ($variable){
