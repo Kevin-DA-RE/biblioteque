@@ -1,7 +1,5 @@
 <?php
 require './header.php';
-var_dump($_GET);
-var_dump($_POST);
 $movieOne = $pdo->prepare("SELECT nom, url FROM media WHERE id=:id");
 $movieOne->bindParam(':id',$_GET['id'], PDO::PARAM_INT);
 $movieOne->execute();
@@ -9,8 +7,9 @@ $movieOne->execute();
 ?>
 <div class="container">
     <div class="row">
-        <form action="/update.php" method="get">
+        <form action="/update.php" method="post">       
             <?php foreach ($movieOne as $movie) : ?>
+                <h2>Mettre à jour le film <?= $movie['nom']?></h2>
                 <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
                 <div class="form-group">
                     <label for="movieAdd">Vidéo</label>
@@ -22,7 +21,11 @@ $movieOne->execute();
                 </div>
                 <button type="submit" class="btn btn-primary">Mettre à jour</button>
                 <?php endforeach;?>
-            </form>
+        </form>
+        <div class="col col-lg2 mb-5 mt-2">
+            <a href="./movie.php" class="btn btn-success">Annuler</a>
+        </div>
+            
     </div>
 </div>
  

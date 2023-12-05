@@ -5,9 +5,9 @@ require './header.php';
 /* Requete pour afficher tous les films présent en base */
 $movies = $pdo->query('SELECT id, nom, url FROM media ORDER BY id desc');
 
-if(!empty($_GET)){
-    $nom = htmlspecialchars(ucfirst($_GET['nom']));
-    $url = htmlspecialchars($_GET['url']);
+if(!empty($_POST)){
+    $nom = htmlspecialchars(ucfirst($_POST['nom']));
+    $url = htmlspecialchars($_POST['url']);
     $addMovies = $pdo->prepare("INSERT INTO `media`(`nom`, `url`) VALUES (:nom,:url)");
      // Liaison des paramètres
     $addMovies->bindParam(':nom', $nom, PDO::PARAM_STR);
@@ -20,7 +20,8 @@ if(!empty($_GET)){
 <main class="container-fluid">
     <div class="row">
         <div class="col col-lg-2 mb-5">
-            <form action="/movie.php" method="get">
+            <form action="/movie.php" method="post">
+                <h2>Ajouter un film</h2>
                 <div class="form-group">
                     <label for="movieAdd">Vidéo</label>
                     <input type="text" class="form-control" id="movieAdd" name="nom" placeholder="Saisissez le nom du film">
@@ -45,6 +46,7 @@ if(!empty($_GET)){
                                     <div class="card-body">                        
                                         <a href="<?=$movie['url']?>" class="btn btn-primary">View</a>
                                         <a href="./prepareToUpdate.php?id=<?=$movie['id']?>" class="btn btn-success">Update</a>
+                                        <a href="./prepareToDelete.php?id=<?=$movie['id']?>" class="btn btn-danger">Delete</a>
                                     </div>
                             </div>
                         </div>
